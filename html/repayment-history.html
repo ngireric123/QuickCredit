@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Repayment History</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../css/user.css" type="text/css">
+</head>
+<body>
+	<header class="flex justify-between align-center card-1">
+		<a href="userdashboard.html"><span></span>     Quick Credit</a>
+		<a href="#" class="minimize_button" onclick="togle_nav_func()"><span><i class="fa fa-bars fa-1x"></i></span></a>
+	</header>
+	<div class="justify-start  side-nav visible" id="togle_nav">
+		<nav>
+			<ul>
+				<li class="active">
+					<a href="userdashboard.html">
+						<span ><i class="fa fa-home fa-fw"></i></span>
+						<span>Home</span>
+					</a>
+				</li>
+				<li>
+					<a href="loan-application.html">
+						<span ><i class="fa fa-asterisk"></i></span>
+						<span>Loan Application</span>
+					</a>
+				</li>
+				<li>
+					<a href="repayment-history.html">
+						<span ><i class="fa fa-compress"></i></span>
+						<span>Repayment History</span>
+					</a>
+				</li>
+				<li>
+					<a href="current-loan.html">
+						<span ><i class="fa fa-pencil-square"></i></span>
+						<span>Current Loan</span>
+					</a>
+				</li>
+				<li>
+					<a href="repaid-loan.html">
+						<span ><i class="fa fa-user"></i></span>
+						<span>Repaid Loan</span>
+					</a>
+				</li>
+
+				<li>
+					<a href="viewprofile.html">
+						<span ><i class="fa fa-envelope"></i></span>
+						<span>View Profile</span>
+					</a>
+				</li>
+				<li>
+					<a href="../index.html">
+						<span ><i class="fa fa-power-off"></i></span>
+						<span>Logout</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+  		<div class="main-content">
+
+
+  			<div class="main">
+  				<!-- LOAN APPLICATION LIST -->
+  				<div class="widget widget_table" style="overflow-x:auto;">
+  					<div class="title heado">Loan Repayment History  &nbsp; &nbsp;<input type="search" id="myInput" placeholder="search for an account"></div>
+  					<div class="widget_stat widget_stat_table">
+  					<div style="overflow-x:auto;">
+  						<table style="overflow:scroll;">
+  						<thead>
+  							<tr>
+  								<th>A/C Number</th>
+  								<th>Names</th>
+                  <th>Created On</th>
+  								<th>Amount (Frw)</th>
+                  <th>Monthly Installment</th>
+                  <th>Loan Id</th>
+  							</tr>
+  						</thead>
+  						<tbody>
+  							<tr>
+  								<td><a href="">00004-1345</a></td>
+  								<td>Mugema Alfred</td>
+  								<td>12/2/2019</td>
+  								<td>30.000</td>
+                  <td>2.500</td>
+                  <td>36544</td>
+  							</tr>
+                <tr>
+  								<td><a href="">00004-2578</a></td>
+  								<td>Kaligirwa Alice</td>
+  								<td>20/3/2019</td>
+  								<td>50.000</td>
+                  <td>3.000</td>
+                  <td>45456</td>
+  							</tr>
+                <tr>
+  								<td><a href="">00004-0987</a></td>
+  								<td>Amani Jean</td>
+  								<td>4/1/2019</td>
+  								<td>20.000</td>
+                  <td>1500</td>
+                  <td>7865</td>
+  							</tr>
+
+                <tr>
+                  <td><a href="">00004-6943</a></td>
+                  <td>Rwigema Peter</td>
+                  <td>5/7/2019</td>
+                  <td>20.000</td>
+                  <td>1.250</td>
+                  <td>3456</td>
+                </tr>
+
+                <tr>
+                  <td><a href="">00004-3340</a></td>
+                  <td>Rwibutso Peter</td>
+                  <td>30/4/2019</td>
+                  <td>20.000</td>
+                  <td>1.500</td>
+                  <td>8679</td>
+                </tr>
+
+  						</tbody>
+  						</table>
+  						</div>
+  					</div>
+  				</div>
+  				<!-- LOAN APPLICATION LIST  -->
+  			</div>
+  		</div>
+			</div>
+	<script src="../js/script.js"></script>
+  <script src="../js/search.js"></script>
+</body>
+</html>
