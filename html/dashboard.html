@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/modal.css">
+  <link rel="stylesheet" href="../css/index.css">
+  <link rel="stylesheet" href="../css/next-style.css">
+</head>
+<body>
+<!-- Header -->
+<header class="flex justify-between align-center card-1">
+  <div class="title ">
+  <!-- <a href="index1.html" class="EBold">Quick Credit</a> -->
+  <img width="auto" height="70px" src="../assets/images/new-header.jpg" alt="">
+<a href="#" class="minimize_button" onclick="togle_nav_func()"><span><i class="fa fa-bars fa-1x"></i></span></a>
+  </div>
+  <nav>
+    <a href="#" class="btn signup-btn primary text-white shadow-1" id="myBtn">LOGOUT</a>
+  </nav>
+</header>
+
+<div class="side-nav visible" id="togle_nav">
+  <nav>
+    <ul>
+      <li class="active">
+        <a href="userdashboard.html">
+          <span ><i class="fa fa-home fa-fw"></i></span>
+          <span>Home</span>
+        </a>
+      </li>
+      <li>
+        <a href="party.html">
+          <span ><i class="fa fa-asterisk"></i></span>
+          <span>Political Party</span>
+        </a>
+      </li>
+      <li>
+        <a href="office.html">
+          <span ><i class="fa fa-compress"></i></span>
+          <span>Political Office</span>
+        </a>
+      </li>
+      <li>
+        <a href="petition.html">
+          <span ><i class="fa fa-pencil-square"></i></span>
+          <span>Petition</span>
+        </a>
+      </li>
+      <li>
+        <a href="vote.html">
+          <span ><i class="fa fa-user"></i></span>
+          <span>Vote</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="vote-resultu.html">
+          <span ><i class="fa fa-envelope"></i></span>
+          <span>Vote Result</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="viewprofile.html">
+          <span ><i class="fa fa-envelope"></i></span>
+          <span>View Profile</span>
+        </a>
+      </li>
+      <li>
+        <a href="../index.html">
+          <span ><i class="fa fa-power-off"></i></span>
+          <span>Logout</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
+<div class="main-content">
+  <!-- <div class="title">
+    home / office
+  </div> -->
+
+  <div class="main">
+    <!-- VIEW POLITICAL CANDIDATES -->
+    <div class="widget widget_table" style="overflow-x:auto;">
+      <div class="title heado">List of Candidates</div>
+      <div class="widget_stat widget_stat_table">
+      <div style="overflow-x:auto;">
+        <table style="overflow:scroll;">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Office</th>
+            <th>Candidate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="#">1</a></td>
+            <td>National Assembly Member</td>
+            <td>
+              <ul class="voteresult">
+                <li>Rwemera - PDC</li>
+                <li>Ishimwe Mark - FPR</li>
+                <li>Gwiza Aime - PL</li>
+                <li>Ntiganda elie - DGR</li>
+              </ul>
+
+            </td>
+
+          </tr>
+          <tr>
+            <td><a href="#">2</a></td>
+            <td>Legislative Council Member</td>
+            <td>
+              <ul class="voteresult">
+                <li>Kamanzi jean - FPR</li>
+                <li>Amani Eric - PL</li>
+
+              </ul>
+
+            </td>
+
+          </tr>
+
+
+
+        </tbody>
+        </table>
+        <button class="btn btnmore">View More</button>
+        </div>
+      </div>
+    </div>
+    <!-- END VIEW POLITICAL CANDIDATES -->
+  </div>
+
+
+</div>
+
+
+    <script src="js/script.js"></script>
+</body>
+</html>
