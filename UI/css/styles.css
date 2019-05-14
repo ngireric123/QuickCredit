@@ -1,13 +1,12 @@
 /* This file contains the global style */
-/* @font-face {
+@font-face {
 	font-family: OpenSans;
 	font-style: normal;
 	font-weight: 400;
 	src: url('../assets/fonts/Open_Sans/OpenSans-Regular.ttf');
-} */
+}
 * {
-	font-family: 'Source Sans Pro', sans-serif;
-	/* font-family: OpenSans; */
+	font-family: OpenSans;
 }
 a {
 	color: #000;
@@ -15,7 +14,7 @@ a {
 .active {
 	color: #32b3e5;
 }
-/* @font-face {
+@font-face {
 	font-family: OpenSansEBold;
 	src: url('../assets/fonts/Open_Sans/OpenSans-ExtraBold.ttf');
 }
@@ -32,10 +31,10 @@ a {
 @font-face {
 	font-family: OpenSansLight;
 	src: url('../assets/fonts/Open_Sans/OpenSans-Light.ttf');
-}*/
-/* .light {
+}
+.light {
 	font-family: OpenSansLight;
-} */
+}
 body {
 	background-color: #fff;
 	padding: 0;
