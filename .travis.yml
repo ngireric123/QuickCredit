@@ -17,6 +17,3 @@ script:
 after_succes:
   - npm run coveralls
 
-
-
- develop
