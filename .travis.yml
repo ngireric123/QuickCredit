@@ -1,3 +1,4 @@
+
 language: node_js
 node_js:
   - "stable"
@@ -8,9 +9,14 @@ before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
+bg-fixing-coveralls-error-166026258
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 script:
   - npm test
 after_succes:
   - npm run coveralls
+
+
+
+ develop
