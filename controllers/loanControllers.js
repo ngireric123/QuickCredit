@@ -1,7 +1,6 @@
 import Joi from 'joi';
 import moment from 'moment';
-// import loans from '../models/loan';
-import dummy from '../models/dummy';
+import data from '../models/data';
 
 class Loan {
   // create a loan
@@ -18,7 +17,7 @@ class Loan {
     };
     const { error } = Joi.validate(req.body, schema);
     if (error) {
-      return res.status(400).send({
+      res.status(400).send({
         status: 400,
         error: error.details[0].message,
       });
@@ -32,7 +31,7 @@ class Loan {
     const status = 'pending';
     const createdOn = moment().format('LLL');
     const repaid = false;
-    const id = dummy.loanDummy.length + 1;
+    const id = data.loanDummy.length + 1;
     const totalAmount = amount + paymentInstallment;
 
     const newLoan = {
@@ -49,8 +48,8 @@ class Loan {
       balance,
       totalAmount,
     };
-    dummy.loanDummy.push(newLoan);
-    return res.status(201).send({
+    data.loanDummy.push(newLoan);
+    res.status(201).send({
       status: 201,
       message: 'Loan created',
       data: newLoan,
@@ -60,19 +59,37 @@ class Loan {
   // get all  loan
 
   static async getAll(req, res) {
-    return res.status(200).send({
+    const statusLoan = req.query.status;
+    const repaidLoan = req.query.repaid;
+
+    const currentLoan = data.loanDummy.filter(
+      loan => loan.status === statusLoan && loan.repaid === repaidLoan
+    );
+    if (currentLoan.length !== 0) {
+        res.status(200).send({
+        status: 200,
+        data: currentLoan,
+      });
+    }else if(!statusLoan && !repaidLoan){
+      res.status(200).send({
       status: 200,
-      data: dummy.loanDummy,
+      data: data.loanDummy,
     });
+  }else{
+     res.status(404).send({
+      status: 404,
+      message: 'no loan found',
+    });
+    }
   }
 
   // Approve or reject a loan application(patch)
 
-  static async patchLoan(req, res) {
+  static async updateLoan(req, res) {
     const loanId = parseInt(req.params.id, 10);
     let job = '';
-    for (let i = 0; i < dummy.loanDummy.length; i += 1) {
-      if (dummy.loanDummy[i].id === loanId) {
+    for (let i = 0; i < data.loanDummy.length; i += 1) {
+      if (data.loanDummy[i].id === loanId) {
         const schema = {
           status: Joi.string().min(3).trim(),
         };
@@ -83,13 +100,13 @@ class Loan {
             error: error.details[0].message,
           });
         }
-        if (req.body.status) dummy.loanDummy[i].status = req.body.status;
-        if (req.body.firstName) dummy.loanDummy[i].firstName = req.body.firstName;
-        if (req.body.lastName) dummy.loanDummy[i].lastName = req.body.lastName;
+        if (req.body.status) data.loanDummy[i].status = req.body.status;
+        if (req.body.firstName) data.loanDummy[i].firstName = req.body.firstName;
+        if (req.body.lastName) data.loanDummy[i].lastName = req.body.lastName;
         job = 'done';
         return res.status(200).send({
           status: 200,
-          data: dummy.loanDummy[i],
+          data: data.loanDummy[i],
         });
       }
     }
@@ -106,9 +123,9 @@ class Loan {
   static async getOne(req, res) {
     const loanId = parseInt(req.params.id, 10);
     const result = [];
-    for (let i = 0; i < dummy.loanDummy.length; i += 1) {
-      if (dummy.loanDummy[i].id === loanId) {
-        result.push(dummy.loanDummy[i]);
+    for (let i = 0; i < data.loanDummy.length; i += 1) {
+      if (data.loanDummy[i].id === loanId) {
+        result.push(data.loanDummy[i]);
       }
     }
     if (result.length === 0) {
@@ -121,28 +138,6 @@ class Loan {
       status: 200,
       data: result,
     });
-  }
-
-  // Get current loan
-
-  static async getCurrent(req, res) {
-    const statusLoan = req.params.status;
-    const repaidLoan = req.params.repaid;
-    const currentLoan = dummy.loanDummy.find(
-      loan => loan.status === statusLoan && loan.repaid === repaidLoan,
-    );
-    if (!currentLoan) {
-      return res.json(404).send({
-        status: 404,
-        data: 'current loan not found',
-      });
-    }
-    return res.json({
-      status: 200,
-      message: 'Current loan',
-      data: currentLoan,
-    });
-    // res.send(dummy.loanDummy(req.query.status)
   }
 }
 export default Loan;

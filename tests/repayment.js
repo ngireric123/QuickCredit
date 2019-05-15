@@ -3,7 +3,7 @@ import chaiHTTP from 'chai-http';
 import server from '../index';
 import {
   newRepayment,
-} from './dummy';
+} from './data';
 
 chai.use(chaiHTTP);
 chai.should();

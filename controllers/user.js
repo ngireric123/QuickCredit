@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import Joi from 'joi';
 import bcrypt from 'bcryptjs';
 import User from '../models/user';
-import dummy from '../models/dummy';
+import data from '../models/data';
 
 const users = {
 
@@ -12,20 +12,20 @@ const users = {
     const {
       firstName, lastName, email, password, status,
     } = req.body;
-    const emaili = dummy.users.filter(user => user.email === email);
+    const emaili = data.users.filter(user => user.email === email);
     if (emaili.length !== 0) {
       res.status(400).json({
         status: 400,
         error: 'the email is already taken. the user already exist. register with another unique email',
       });
     } else {
-      const id = dummy.users.length + 1;
+      const id = data.users.length + 1;
       const user = new User(
         id, firstName, lastName, email, password, status,
       );
       const hash = bcrypt.hashSync(user.password, 10);
       user.password = hash;
-      const token = jwt.sign({ user: dummy.users.push(user) }, 'secret-key');
+      const token = jwt.sign({ user: data.users.push(user) }, 'secret-key');
       res.status(201).json({
         status: 201, success: 'user registered', data: [{ token, user }],
       });
@@ -38,15 +38,15 @@ const users = {
     const {
       email, password,
     } = req.body;
-    for (let i = 0; i < dummy.users.length; i += 1) {
-      if (dummy.users[i].email === email) {
-        const { firstName } = dummy.users[i];
-        const { lastName } = dummy.users[i];
+    for (let i = 0; i < data.users.length; i += 1) {
+      if (data.users[i].email === email) {
+        const { firstName } = data.users[i];
+        const { lastName } = data.users[i];
         // eslint-disable-next-line no-shadow
-        const { email } = dummy.users[i];
-        const truePass = bcrypt.compareSync(password, dummy.users[i].password);
+        const { email } = data.users[i];
+        const truePass = bcrypt.compareSync(password, data.users[i].password);
         if (truePass) {
-          const token = jwt.sign({ user: dummy.users[i] }, 'secret-key', { expiresIn: '1h' });
+          const token = jwt.sign({ user: data.users[i] }, 'secret-key', { expiresIn: '1h' });
           res.status(200).json({
             status: 200,
             success: 'logged in',
@@ -68,8 +68,8 @@ const users = {
   patchUser(req, res) {
     const userEmail = req.params.email;
     let job = '';
-    for (let i = 0; i < dummy.users.length; i += 1) {
-      if (dummy.users[i].email === userEmail) {
+    for (let i = 0; i < data.users.length; i += 1) {
+      if (data.users[i].email === userEmail) {
         const schema = {
           status: Joi.string().required(),
         };
@@ -80,11 +80,11 @@ const users = {
             error: error.details[0].message,
           });
         }
-        if (req.body.status) dummy.users[i].status = req.body.status;
+        if (req.body.status) data.users[i].status = req.body.status;
         job = 'done';
         return res.status(200).send({
           status: 200,
-          data: dummy.users[i],
+          data: data.users[i],
         });
       }
     }

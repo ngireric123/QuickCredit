@@ -4,7 +4,7 @@ import server from "../index";
 import {
   newUser, newUserLogIn, falseEmailLogIn, falsePasswdLogIn, falseNewUser,
   falseNewUser2, falseUserLogIn, UserRegistered,
-} from "./dummy";
+} from "./data";
 
 chai.use(chaiHTTP);
 chai.should();

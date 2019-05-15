@@ -2,17 +2,6 @@
 	box-sizing: border-box;
 }
 
-/* body {
-	margin: 0px;
-	padding: 0px;
-	background-color: #4CAF50;
-	font-family: 'Source Sans Pro', sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-} */
-
-
-
 table th{
 	background-color: #EFBFA8;
 }
@@ -63,8 +52,6 @@ header {
 .side-nav ul li.active {
 
 	background-color: gray;
-	/*background-color: white;*/
-
 }
 
 .side-nav ul li span i {
