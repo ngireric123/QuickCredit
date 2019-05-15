@@ -13,4 +13,4 @@ after_script:
 script:
   - npm test
 after_succes:
-  - npm run coveralls
+  - coveralls
