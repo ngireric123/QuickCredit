@@ -7,24 +7,54 @@ income earners.               (https://quickcredit-challenge2.herokuapp.com/)
 
 
 # Getting Started
-Install dependencies 
 
+Install dependencies 
 `npm install`
 
-Starting development server 
+# prerequisites
 
-`npm run start`
+Make sure you have node installed
 
-Run Tests 
+# Starting development server 
 
-`npm run test`
+`npm start`
 
-# User Interface
+# Run Tests 
+
+`npm test`
+
+# Deployment
 
 The application template is hosted on github pages https://ngireric123.github.io/QuickCredit/UI/
 
 
+# Endpoints
+### Endpoints to post and patch user
 
+| HTTP Method       | End point                                  |     Action               |
+| ------------------|:------------------------------------------:| ------------------------:|
+| POST              | /api/v1/auth/signup                        | Create a user account    |
+| POST              | /api/v1/auth/login                         | Login                    |
+| PATCH             | /api/v1/users/ngireric123@gmail.com/verify | Mark a user as verified  |
+
+### Endpoints to get,create,post and patch loans
+
+| HTTP Method       | End point                                 |     Action                                   |
+| ------------------|:-----------------------------------------:| --------------------------------------------:|
+| POST              | /api/v1/loans                             | apply for a loan                             |
+| GET               | /api/v1/loans                             | view all loan applications                   |
+| GET               | /api/v1/loans/1                           | view a specific loan                         |
+| GET               | /api/v1/loans?status=approved&repaid=false| view current loans (not fully repaid)        |
+| GET               | /api/v1/loans?status=approved&repaid=true | view all repaid loans                        | 
+| PATCH             | /api/v1/loans/4                           | approve or reject a client’s loan application|
+
+
+### Endpoints to get and post loans repayment
+
+| HTTP Method       | End point                 |     Action                              |
+| ------------------|:-------------------------:| ---------------------------------------:|
+| GET               | /api/v1/loans/1/repayments| view all loan repayment history         |
+| POST              | /api/v1/loans/3/repayment | Create a loan repayment record          |
 
 
 # Author
