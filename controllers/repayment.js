@@ -1,8 +1,6 @@
 import Joi from 'joi';
 import moment from 'moment';
-// import repayment  from '../models/repayment';
-// import loans from '../models/loan';
-import dummy from '../models/dummy';
+import data from '../models/data';
 
 class repayments {
   // Create loan repayment
@@ -18,7 +16,7 @@ class repayments {
         error: error.details[0].message,
       });
     }
-    const findLoan = dummy.loanDummy.find(
+    const findLoan = data.loanDummy.find(
       loanDummy => loanDummy.id === parseInt(req.params.id, 10),
     );
     if (!findLoan) {
@@ -27,7 +25,7 @@ class repayments {
         error: 'Loan you are looking for is not registered',
       });
     }
-    const id = dummy.loanRepayment.length + 1;
+    const id = data.loanRepayment.length + 1;
     const loanId = parseInt(req.params.id, 10);
     const createdOn = moment().format('LLL');
     const { paidAmount } = req.body;
@@ -61,7 +59,7 @@ class repayments {
         message: `this loan is ${findLoan.status} `,
       });
     } else if (balance >= 0) {
-      dummy.loanRepayment.push(newRepayment);
+      data.loanRepayment.push(newRepayment);
       return res.status(201).send({
         status: 201,
         data: newRepayment,
@@ -79,9 +77,9 @@ class repayments {
   static async getHistory(req, res) {
     const repaymentId = parseInt(req.params.id, 10);
     const resultArray = [];
-    for (let i = 0; i < dummy.loanRepayment.length; i += 1) {
-      if (dummy.loanRepayment[i].loanId === repaymentId) {
-        resultArray.push(dummy.loanRepayment[i]);
+    for (let i = 0; i < data.loanRepayment.length; i += 1) {
+      if (data.loanRepayment[i].loanId === repaymentId) {
+        resultArray.push(data.loanRepayment[i]);
       }
     }
     if (resultArray.length === 0) {
