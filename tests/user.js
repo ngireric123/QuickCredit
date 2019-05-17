@@ -39,20 +39,6 @@ describe("USER ENDPOINT TESTS", () => {
       });
   });
 
-  it("Should not login the user if the email is invalid", (done) => {
-    chai.request(server)
-      .post("/api/v1/auth/login")
-      .send(falseEmailLogIn)
-      .set("Accept", "Application/JSON")
-      .end((err, res) => {
-        res.body.should.have.status(400);
-        res.body.should.have.property("status").eql(400);
-        res.body.should.have.property("error").eql("invalid email");
-        res.body.should.be.a("object");
-        done();
-      });
-  });
-
   it('Should not login the user if the email is empty', (done) => {
     chai.request(server)
       .post('/api/v1/auth/login')
