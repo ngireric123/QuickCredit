@@ -61,7 +61,6 @@ class Loan {
   static async getAll(req, res) {
     const statusLoan = req.query.status;
     const repaidLoan = req.query.repaid;
-
     const currentLoan = data.loanDummy.filter(
       loan => loan.status === statusLoan && loan.repaid === repaidLoan
     );
