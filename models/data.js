@@ -7,8 +7,8 @@ const users = [
     lastName: 'NGIRABABYEYI',
     status: 'verified',
     email: 'ngireric123@gmail.com',
-    password: bcrypt.hashSync('1234', 10),
-    isAdmin: 'true',
+    password: bcrypt.hashSync('12345678', 10),
+    isAdmin: true,
   },
   {
     id: 2,
@@ -16,7 +16,8 @@ const users = [
     lastName: 'alfred',
     status: 'unverified',
     email: 'kagina@gmail.com',
-    password: bcrypt.hashSync('1234', 10),
+    password: bcrypt.hashSync('12345678', 10),
+    isAdmin: 'true',
   },
   {
     id: 3,
@@ -24,7 +25,8 @@ const users = [
     lastName: 'claude',
     status: 'verified',
     email: 'claude@gmail.com',
-    password: bcrypt.hashSync('1234', 10),
+    password: bcrypt.hashSync('12345678', 10),
+    isAdmin: false,
   },
 ];
 const loanRepayment = [

@@ -10,11 +10,12 @@ const validate = {
         .required(),
       email: Joi.string().email({ minDomainAtomas: 2 })
         .required(),
-      password: Joi.string().alphanum().min(3).max(15)
+      password: Joi.string().alphanum().min(8).max(15)
         .required(),
       status: Joi.string().min(2)
         .valid(['unverified', 'verified'])
         .trim(),
+      isAdmin: Joi.string().min(2),
     });
 
     const { error } = Joi.validate(req.body, userSchema);

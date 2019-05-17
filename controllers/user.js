@@ -10,7 +10,7 @@ const users = {
 
   registerUser(req, res) {
     const {
-      firstName, lastName, email, password, status,
+      firstName, lastName, email, password, status,isAdmin,
     } = req.body;
     const emaili = data.users.filter(user => user.email === email);
     if (emaili.length !== 0) {
@@ -20,12 +20,13 @@ const users = {
       });
     } else {
       const id = data.users.length + 1;
+      // const isAdmin = 'false';
       const user = new User(
-        id, firstName, lastName, email, password, status,
+        id, firstName, lastName, email, password, status,isAdmin,
       );
       const hash = bcrypt.hashSync(user.password, 10);
       user.password = hash;
-      const token = jwt.sign({ user: data.users.push(user) }, 'secret-key');
+      const token = jwt.sign({ user: data.users.push(user) }, `${process.env.PRIVATE_KEY}`);
       res.status(201).json({
         status: 201, success: 'user registered', data: [{ token, user }],
       });
@@ -42,16 +43,17 @@ const users = {
       if (data.users[i].email === email) {
         const { firstName } = data.users[i];
         const { lastName } = data.users[i];
+        const { isAdmin } = data.users[i];
         // eslint-disable-next-line no-shadow
         const { email } = data.users[i];
         const truePass = bcrypt.compareSync(password, data.users[i].password);
         if (truePass) {
-          const token = jwt.sign({ user: data.users[i] }, 'secret-key', { expiresIn: '1h' });
+          const token = jwt.sign({ user: data.users[i] }, `${process.env.PRIVATE_KEY}`, { expiresIn: '24h' });
           res.status(200).json({
             status: 200,
             success: 'logged in',
             data: [{
-              token, firstName, lastName, email,
+              token, firstName, lastName, email, isAdmin,
             }],
           });
         } else {
