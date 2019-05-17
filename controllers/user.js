@@ -20,7 +20,6 @@ const users = {
       });
     } else {
       const id = data.users.length + 1;
-      // const isAdmin = 'false';
       const user = new User(
         id, firstName, lastName, email, password, status,isAdmin,
       );
@@ -47,7 +46,7 @@ const users = {
         // eslint-disable-next-line no-shadow
         const { email } = data.users[i];
         const truePass = bcrypt.compareSync(password, data.users[i].password);
-        if (truePass) {
+        if (truePass && data.users[i].status=== 'verified') {
           const token = jwt.sign({ user: data.users[i] }, `${process.env.PRIVATE_KEY}`, { expiresIn: '24h' });
           res.status(200).json({
             status: 200,
@@ -57,12 +56,12 @@ const users = {
             }],
           });
         } else {
-          res.status(400).json({ status: 400, error: 'incorrect password' });
+          res.status(400).json({ status: 400, error: 'incorrect password or you are not yet verified by the admin' });
         }
         return;
       }
     }
-    res.status(400).json({ status: 400, error: 'invalid email' });
+    res.status(400).json({ status: 400, error: 'invalid email  or you are not yet verified by the admin' });
   },
 
   // mark a user as verified
