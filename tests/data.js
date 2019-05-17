@@ -2,33 +2,38 @@ const newUser = {
   firstName: 'mukamisha',
   lastName: 'alice',
   email: 'mukamisha@gmail.com',
-  password: '1234',
+  password: '12345678',
 };
 
 const UserRegistered = {
   firstName: 'mukamisha',
   lastName: 'alice',
   email: 'mukamisha@gmail.com',
-  password: '1234',
+  password: '$2a$10$jEbas2DUi/uP2gZ7j3QXn.o.3Txwawd./DVkgoOmJ27W.rl13EwWm',
+};
+
+const auth = {
+  email: 'test@gmail.com',
+  password: '12345678',
 };
 
 const falseNewUser = {
   firstName: 'mukamisha',
   lastName: 'alice',
   email: 'mukamishagmail.com',
-  password: '1234',
+  password: '12345678',
 };
 
 const falseNewUser2 = {
   firstName: 'mukamisha',
   lastName: 'alice',
   email: '',
-  password: '1234',
+  password: '12345678',
 };
 
 const newUserLogIn = {
-  email: newUser.email,
-  password: newUser.password,
+  email: 'test@gmail.com',
+  password: '12345678',
 };
 
 const falseUserLogIn = {
