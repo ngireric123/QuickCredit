@@ -1,5 +1,5 @@
 const adminAccess = (req, res, next) => {
-  if (req.users.user.isAdmin === 'true') {
+  if (req.users.user.isAdmin) {
     return next();
   }
   return res.status(403).send({
