@@ -37,7 +37,7 @@ class Authentication {
  // authenticate admin
 
  static async adminAccess (req, res, next){
-    if (req.users.user.isAdmin) {
+    if (req.users.newUser.isAdmin) {
       return next();
     }
       return res.status(403).send({
