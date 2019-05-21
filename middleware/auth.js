@@ -2,10 +2,10 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.config();
-class Authantication{
+class Authentication {
 
   // authenticate user
-  
+
  static isAuth  (req, res, next) {
   if (req.headers.authorization === undefined) {
     return res.status(400).send({
@@ -46,4 +46,4 @@ static async adminAccess (req, res, next){
   });
 };
 }
-export default Authantication;
+export default Authentication;
