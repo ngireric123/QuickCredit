@@ -10,7 +10,7 @@ class Authentication {
   if (req.headers.authorization === undefined) {
     return res.status(400).send({
       status: res.statusCode,
-      error: 'you have no Authorization!',
+      error: 'you have no Authorization for this system!',
     });
   }
 
