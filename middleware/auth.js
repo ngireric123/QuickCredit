@@ -2,8 +2,8 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
-const isAuth = (req, res, next) => {
+class Authantication{
+static async isAuth  (req, res, next) => {
   if (req.headers.authorization === undefined) {
     return res.status(400).send({
       status: res.statusCode,
@@ -30,6 +30,6 @@ const isAuth = (req, res, next) => {
     });
   }
 };
+}
 
-
-export default isAuth;
+export default Authantication;

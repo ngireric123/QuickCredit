@@ -1,4 +1,3 @@
-import Joi from 'joi';
 import loans from '../models/loan';
 import User from '../models/user';
 import { validateLoan } from '../helper/validation';

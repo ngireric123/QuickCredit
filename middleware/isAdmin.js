@@ -1,4 +1,5 @@
-const adminAccess = (req, res, next) => {
+class admin{
+const adminAccess (req, res, next) => {
   if (req.users.user.isAdmin) {
     return next();
   }
@@ -7,4 +8,5 @@ const adminAccess = (req, res, next) => {
     error: 'you are not an admin',
   });
 };
-export default adminAccess;
+}
+export default admin;
