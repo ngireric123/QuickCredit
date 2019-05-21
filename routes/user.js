@@ -1,12 +1,13 @@
 import express from 'express';
-import controller from '../controllers/user';
-import user from '../middleware/validate';
-import auth from '../middleware/auth';
-import adminAccess from '../middleware/isAdmin';
+import userController from '../controllers/user';
+import userAuth from '../middleware/auth';
 
 const router = express.Router();
 
-router.post('/auth/signup', user.validateRegistration, controller.registerUser);
-router.post('/auth/login', user.validateLogin, controller.loginUser);
-router.patch('/users/:email/verify', auth, adminAccess, controller.patchUser);
+router.post('/auth/signup', userController.registerUser);
+router.post('/auth/login', userController.loginUser);
+// router.patch('/users/:email/verify', userAuth.isAuth, userAuth.adminAccess, userController.patchUser);
+
+router.patch('/users/:email/verify', userController.patchUser);
+
 export default router;

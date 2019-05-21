@@ -17,9 +17,9 @@ class loans {
      this.balance = parseFloat(data.amount),
      this.interest = 0.05 * parseFloat(data.amount),
      this.totalAmount = data.amount + this.interest,
-  ];
-  this.res = await pool.query(`INSERT INTO
-   loans (
+      ];
+     this.res = await pool.query(`INSERT INTO
+     loans (
       email,
       "createdOn",
       status,
@@ -30,19 +30,30 @@ class loans {
       balance,
       interest,
       totalAmount
-    )
-    VALUES($1, $2, $3, $4, $5, $6, $7, $8 ,$9 ,$10) RETURNING *
-    `, newLoan);
-  return [this.res.rows[0]];
+     )
+     VALUES($1, $2, $3, $4, $5, $6, $7, $8 ,$9 ,$10) RETURNING *
+     `, newLoan);
+     return [this.res.rows[0]];
 
-   }
-   async checkLoan(email, repaid) {
-   const res = await pool.query('SELECT * FROM loans WHERE email = $1 AND repaid = false', [email.trim()]);
-   if (res.rowCount < 1) {
+     }
+    async checkLoan(email, repaid) {
+     const res = await pool.query('SELECT * FROM loans WHERE email = $1 AND repaid = false', [email.trim()]);
+     if (res.rowCount < 1) {
      return true;
-   }
-    return false;
- }
-}
+     }
+     return false;
+    }
+ // get one loan method
+  async getOneLoan(id) {
+  this.res = await pool.query('SELECT * FROM loans WHERE id = $1', [id]);
+  return this.res;
+    }
 
-export default new loans;
+    // get all loan method
+  async getAllLoan() {
+     this.res = await pool.query('SELECT * FROM loans');
+     return this.res.rows;
+  }
+
+}
+export default new loans();
