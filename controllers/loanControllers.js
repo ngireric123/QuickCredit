@@ -35,5 +35,20 @@ class Loan {
     });
   }
   }
+  // Get on Loan
+  static async getOne(req, res) {
+   const result = await loans.getOneLoan(req.params.id);
+   if (result.rows.length === 0) {
+    return res.status(404).send({
+      status: 404,
+      error: 'Loan you are looking for is not registered',
+    });
+  }
+   return res.status(200).send({
+    status: 200,
+    data: result.rows[0],
+   });
+  }
+
 }
 export default Loan;
