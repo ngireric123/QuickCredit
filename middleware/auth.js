@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 class Authantication{
-static async isAuth  (req, res, next) => {
+static isAuth  (req, res, next) => {
   if (req.headers.authorization === undefined) {
     return res.status(400).send({
       status: res.statusCode,
