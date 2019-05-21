@@ -49,6 +49,13 @@ class Loan {
     data: result.rows[0],
    });
   }
-
+  // Get all Loan
+  static async getAll(req, res) {
+   const results = await loans.getAllLoan();
+   res.status(200).send({
+    status: 200,
+    data: results,
+  });
+}
 }
 export default Loan;
