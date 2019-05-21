@@ -1,102 +1,102 @@
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import Joi from 'joi';
-import bcrypt from 'bcryptjs';
+import _ from 'underscore';
+
 import User from '../models/user';
-import data from '../models/data';
+import { validateUser, validateLogin } from '../helper/validation';
 
-const users = {
+class userController{
+   static async registerUser(req, res) {
 
-  // User Registration
+    const error = validateUser(req.body);
 
-  registerUser(req, res) {
-    const {
-      firstName, lastName, email, password, status,isAdmin,
-    } = req.body;
-    const emaili = data.users.filter(user => user.email === email);
-    if (emaili.length !== 0) {
+    if (error) {
+      return res.status(400).send({
+        status: 400,
+        error: error.details[0].message,
+      });
+    }
+     const emaili = await User.checkEmail2(req.body.email);
+    if (!emaili) {
       res.status(400).json({
         status: 400,
         error: 'the email is already taken. the user already exist. register with another unique email',
       });
-    } else {
-      const id = data.users.length + 1;
-      const user = new User(
-        id, firstName, lastName, email, password, status,isAdmin,
-      );
-      const hash = bcrypt.hashSync(user.password, 10);
-      user.password = hash;
-      const token = jwt.sign({ user: data.users.push(user) }, `${process.env.PRIVATE_KEY}`);
-      res.status(201).json({
-        status: 201, success: 'user registered', data: [{ token, user }],
-      });
-    }
-  },
+    }else{
+    const addedUser = await User.addUser(req.body);
+    const newUser = _.omit(addedUser[0], 'password');
+    const token = jwt.sign({ newUser }, `${process.env.PRIVATE_KEY}`);
+    return res.status(201).send({
+      status: 201,
+      data: [{
+      token,
+      user: newUser,
+  }],
+});
+}
+}
 
   //  User Login
 
-  loginUser(req, res) {
-    const {
-      email, password,
-    } = req.body;
-    for (let i = 0; i < data.users.length; i += 1) {
-      if (data.users[i].email === email) {
-        const { firstName } = data.users[i];
-        const { lastName } = data.users[i];
-        const { isAdmin } = data.users[i];
-        // eslint-disable-next-line no-shadow
-        const { email } = data.users[i];
-        const truePass = bcrypt.compareSync(password, data.users[i].password);
-        if (truePass && data.users[i].status=== 'verified') {
-          const token = jwt.sign({ user: data.users[i] }, `${process.env.PRIVATE_KEY}`, { expiresIn: '24h' });
-          res.status(200).json({
-            status: 200,
-            success: 'logged in',
-            data: [{
-              token, firstName, lastName, email, isAdmin,
-            }],
-          });
-        } else {
-          res.status(400).json({ status: 400, error: 'incorrect password or you are not yet verified by the admin' });
-        }
-        return;
-      }
-    }
-    res.status(400).json({ status: 400, error: 'invalid email  or you are not yet verified by the admin' });
-  },
+  static async loginUser(req, res) {
+  const error = validateLogin(req.body);
+  if (error) {
+    return res.status(400).send({
+      status: 400,
+      error: error.details[0].message,
+    });
+  }
+  const user = await User.checkEmail(req.body.email);
+  if (user.length === 0) {
+    return res.status(404).send({
+      status: 404,
+      error: 'Your email or password is wrong ',
+    });
+  }
+  const validPassword = await bcrypt.compare(req.body.password, user[0].password);
+  if (validPassword) {
+    const newUser = _.omit(user[0], 'password');
+    const token = jwt.sign({ newUser }, `${process.env.PRIVATE_KEY}`, { expiresIn: '24h' });
+    return res.status(200).send({
+      status: 200,
+      data: [{
+        token,
+        user: newUser,
+      }],
+    });
+  }
+
+  return res.status(404).send({
+    status: 404,
+    error: 'Wrong email or password',
+  });
+}
 
   // mark a user as verified
 
-  patchUser(req, res) {
-    const userEmail = req.params.email;
-    let job = '';
-    for (let i = 0; i < data.users.length; i += 1) {
-      if (data.users[i].email === userEmail) {
-        const schema = {
-          status: Joi.string().required(),
-        };
-        const { error } = Joi.validate(req.body, schema);
-        if (error) {
-          return res.status(400).send({
-            status: 400,
-            error: error.details[0].message,
-          });
-        }
-        if (req.body.status) data.users[i].status = req.body.status;
-        job = 'done';
-        return res.status(200).send({
-          status: 200,
-          data: data.users[i],
+  static async patchUser(req, res) {
+    // const userEmail = req.params.email;
+    const result = await User.getOneUser(req.params.email);
+    if (result.length !==0){
+      const findEmail = await User.checkEmail2(req.params.email);
+      if(!findEmail){
+      return res.status(409).send({
+          status: 409,
+          error: 'E-mail not found in our system',
         });
-      }
     }
+    const newLoan = await User.verifyUser(req.params.email, req.body, result);
+    res.status(201).send({
+      status: 201,
+      message: 'User Verified',
+      data: newLoan,
+    });
+  }
+  return res.status(404).send({
+    status: 404,
+    error: 'not user found',
+  });
+}
+}
 
-    if (job !== 'done') {
-      return res.status(404).send({
-        status: 404,
-        error: 'User E-mail not found',
-      });
-    }
-  },
-};
-
-export default users;
+export default userController;
