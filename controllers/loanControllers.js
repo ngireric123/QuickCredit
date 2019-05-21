@@ -1,6 +1,6 @@
 import loans from '../models/loan';
 import User from '../models/user';
-import { validateLoan } from '../helper/validation';
+import { validateLoan, validateLoanStatus } from '../helper/validation';
 
 class Loan {
   // create a loan
@@ -57,5 +57,35 @@ class Loan {
     data: results,
   });
 }
+
+  // Approve or reject loan Application
+
+  static async updateLoan(req, res) {
+
+    const error = validateLoanStatus(req.body);
+
+    if (error) {
+      return res.status(400).send({
+        status: 400,
+        error: error.details[0].message,
+      });
+    }
+    const result = await loans.getOneLoan(req.params.email);
+
+     const findId = await loans.checkId(req.params.email);
+     console.log(findId);
+     if(findId){
+     return res.status(400).send({
+         status: 400,
+         error: 'ID you enter is not found in our system',
+       });
+   }
+
+    const newLoan = await loans.patchLoan(req.params.id, req.body, result);
+    res.status(200).send({
+      status: 200,
+      data: newLoan,
+    });
+  }
 }
 export default Loan;

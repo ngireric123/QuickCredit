@@ -55,5 +55,26 @@ class loans {
      return this.res.rows;
   }
 
+  async patchLoan(id, data, loans){
+    const newStatus = data.status || loans[0].status;
+    this.newId = id;
+    this.newData = [
+    newStatus,
+    this.newId,
+    ];
+      this.res = await pool.query('UPDATE loans SET status = $1 WHERE id = $2 RETURNING *', this.newData);
+      return [this.res.rows[0]];
+  }
+
+  // check ID
+
+  async checkId(id) {
+   this.res = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
+      if (this.res.rowCount > 1) {
+        return true;
+      }
+    return false;
+ }
+
 }
 export default new loans();

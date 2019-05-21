@@ -13,17 +13,26 @@ class userModels {
     return this.user;
 
  }
+  async checkStatus(email) {
+   this.user = [];
+   this.res = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+   if (this.res.rowCount > 0) {
+     this.user.push(this.res.rows[0]);
+    }
+   return this.user;
+  }
 
-  async verifyUser(email, data, users){
+  async updateUser(email, data, users){
     const newStatus = data.status || users[0].status;
+    this.newEmail = email;
     this.newData = [
-    data.status,
-    data.email,
+    newStatus,
+    this.newEmail,
     ];
       this.res = await pool.query('UPDATE users SET status = $1 WHERE email = $2 RETURNING *', this.newData);
-
       return [this.res.rows[0]];
   }
+
   async checkEmail2(email) {
    this.res = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
       if (this.res.rowCount < 1) {

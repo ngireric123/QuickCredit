@@ -31,7 +31,26 @@ export const validateLoan = (data) => {
     tenor: Joi.number().max(12).required(),
     amount: Joi.number().required(),
   };
+  const { error } = Joi.validate(data, schema);
+  return error;
+};
 
+export const validateStatus = (data) => {
+  const schema = {
+    status: Joi.string().min(2)
+      .valid(['verified', 'unverified'])
+      .trim(),
+  };
+  const { error } = Joi.validate(data, schema);
+  return error;
+};
+
+export const validateLoanStatus = (data) => {
+  const schema = {
+    status: Joi.string().min(2)
+      .valid(['pending', 'approved', 'rejected'])
+      .trim(),
+  };
   const { error } = Joi.validate(data, schema);
   return error;
 };
