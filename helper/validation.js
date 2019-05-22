@@ -54,3 +54,11 @@ export const validateLoanStatus = (data) => {
   const { error } = Joi.validate(data, schema);
   return error;
 };
+
+export const validateRepayment = (data) => {
+  const schema = {
+    paidAmount: Joi.number().required(),
+  };
+  const { error } = Joi.validate(data, schema);
+  return error;
+};

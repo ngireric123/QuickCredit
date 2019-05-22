@@ -22,24 +22,118 @@ describe('Home page', () => {
       });
   });
 });
-// describe('User', () => {
-//   it('it should register a new user', (done) => {
-//     chai.request(server)
-//       .post('/api/v1/auth/signup')
-//       .send({
-//         email: 'kanyamibwa@gmail.com',
-//         firstName: 'kanyamibwa',
-//         lastName: 'Alex',
-//         password: '12345678',
-//         status: 'unverified',
-//         address: 'REMERA',
-//         // isAdmin: true,
-//
-//       })
-//       .end((err, res) => {
-//         res.should.have.status(201);
-//         res.body.should.be.a('object');
-//         done();
-//       });
-//   });
-// });
+describe('User', () => {
+  it('it should not register a new user with empty field', (done) => {
+    chai.request(server)
+      .post('/api/v1/auth/signup')
+      .send({
+        email: 'kakabo@gmail.com',
+        firstName: 'kaka',
+        lastName: 'bosco',
+        password: '12345678',
+        status: 'unverified',
+        address: 'KIMIRONKO',
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+  it('it should not login the user with wrong email', (done) => {
+    chai.request(server)
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'tugujjme@gmail.com',
+        password: '12345678',
+      })
+
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+  it('it should not login the user with wrong password', (done) => {
+    chai.request(server)
+      .post('/api/v1/auth/login')
+      .send({
+        email: 'ngireric123@gmail.com',
+        password: '1223',
+      })
+
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+  describe('Login a user with data already in the database !!!', () => {
+    it('it should login the user', (done) => {
+      chai.request(server)
+        .post('/api/v1/auth/login')
+        .send({
+          email: 'karemera@gmail.com',
+          password: '12345678',
+        })
+
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          token = res.body.data[0].token;
+          done();
+        });
+    });
+  });
+  it('it should not register a new user with existing email', (done) => {
+    chai.request(server)
+      .post('/api/v1/auth/signup')
+      .send({
+        email: 'ngireric123',
+        firstName: 'ngirababyeyi',
+        lastName: 'erico',
+        password: '12345678',
+        status: 'unverified',
+        address: 'REMERA',
+      })
+
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+});
+
+describe('RUNNING OTHER TESTS', () => {
+  it('it should GET all loan', (done) => {
+    chai.request(server)
+      .get('/api/v1/loans')
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+  it('it should not GET a specific loan when you letter mixed with number', (done) => {
+    chai.request(server)
+      .get('/api/v1/loans/1gggd')
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+  it('it should not GET not a loan which is not exist', (done) => {
+    chai.request(server)
+      .get('/api/v1/loans/908977')
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+});

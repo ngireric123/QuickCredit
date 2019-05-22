@@ -1,6 +1,9 @@
 import pool from './db';
 import moment from 'moment';
 class loans {
+
+  // Create a loan
+  
    async create(data) {
       this.interest = 0.05 * parseFloat(data.amount);
       this.paymentInstallment = ((parseFloat(data.amount) + this.interest ) / data.tenor);
@@ -43,17 +46,22 @@ class loans {
      }
      return false;
     }
+
  // get one loan method
+
   async getOneLoan(id) {
   this.res = await pool.query('SELECT * FROM loans WHERE id = $1', [id]);
   return this.res;
     }
 
     // get all loan method
+
   async getAllLoan() {
      this.res = await pool.query('SELECT * FROM loans');
      return this.res.rows;
   }
+
+   // Patch Loan
 
   async patchLoan(id, data, loans){
     const newStatus = data.status || loans[0].status;
@@ -69,12 +77,12 @@ class loans {
   // check ID
 
   async checkId(id) {
-   this.res = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
-      if (this.res.rowCount > 1) {
-        return true;
+    this.loan = [];
+   this.res = await pool.query('SELECT * FROM loans WHERE id = $1', [id]);
+      if (this.res.rowCount === 1) {
+        this.loan.push(this.res.rows[0]);
       }
-    return false;
+    return this.loan;
  }
-
 }
 export default new loans();
