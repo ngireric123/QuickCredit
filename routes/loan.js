@@ -7,7 +7,6 @@ const router = express.Router();
 router.post('/', userAuth.isAuth, Loan.createLoan);
 router.get('/', userAuth.isAuth, userAuth.adminAccess, Loan.getAll);
 router.get('/:id', userAuth.isAuth, userAuth.adminAccess, Loan.getOne);
-router.patch('/:id', Loan.updateLoan);
-// router.patch('/:id', auth, adminAccess, Loan.updateLoan);
+router.patch('/:id', userAuth.isAuth, userAuth.adminAccess, Loan.updateLoan);
 
 export default router;

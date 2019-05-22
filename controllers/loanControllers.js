@@ -37,7 +37,13 @@ class Loan {
   }
   // Get on Loan
   static async getOne(req, res) {
-   const result = await loans.getOneLoan(req.params.id);
+    if (isNaN(req.params.id)) {
+     return res.status(400).send({
+       status: 400,
+       error: 'invalid url',
+     });
+   }
+    const result = await loans.getOneLoan(req.params.id);
    if (result.rows.length === 0) {
     return res.status(404).send({
       status: 404,
@@ -49,7 +55,9 @@ class Loan {
     data: result.rows[0],
    });
   }
+
   // Get all Loan
+
   static async getAll(req, res) {
    const results = await loans.getAllLoan();
    res.status(200).send({
@@ -72,9 +80,8 @@ class Loan {
     }
     const result = await loans.getOneLoan(req.params.email);
 
-     const findId = await loans.checkId(req.params.email);
-     console.log(findId);
-     if(findId){
+     const findId = await loans.checkId(req.params.id);
+     if(findId.length === 0){
      return res.status(400).send({
          status: 400,
          error: 'ID you enter is not found in our system',

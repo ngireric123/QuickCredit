@@ -5,7 +5,7 @@ import _ from 'underscore';
 import User from '../models/user';
 import { validateUser, validateLogin, validateStatus } from '../helper/validation';
 
-class userController{
+  class userController{
    static async registerUser(req, res) {
 
     const error = validateUser(req.body);
@@ -31,10 +31,10 @@ class userController{
       data: [{
       token,
       user: newUser,
-  }],
-});
-}
-}
+       }],
+    });
+  }
+  }
 
   //  User Login
 
