@@ -55,7 +55,7 @@ class userModels {
      data.lastName.trim(),
      data.address.trim(),
      this.password.trim(),
-     data.status.trim(),
+     this.status = 'unverified',
    ];
    this.res = await pool.query(`INSERT INTO
      users(
@@ -66,7 +66,7 @@ class userModels {
      password,
      status
      )
-     VALUES($1, $2, $3, $4, $5,$6) RETURNING *
+     VALUES($1, $2, $3, $4, $5, $6) RETURNING *
    `, this.newUser);
    return [this.res.rows[0]];
  }

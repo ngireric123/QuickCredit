@@ -10,7 +10,7 @@ const tablesCreate = () => {
        "lastName" VARCHAR(10) NOT NULL,
        password VARCHAR(80) NOT NULL,
        address VARCHAR(50) NOT NULL,
-       status VARCHAR(80) NOT NULL,
+       status VARCHAR(80) DEFAULT 'unverified',
        "isAdmin" BOOLEAN NOT NULL DEFAULT false
      )`;
   const loans = `CREATE TABLE IF NOT EXISTS
@@ -50,7 +50,7 @@ const tablesCreate = () => {
     'ngireric123@gmail.com',
     'ngirababyeyi',
     'erico',
-    '12345678',
+    '$2b$08$de4oHNvGXgIQ49vCSDwhGelKeEWjGVk1oXy6P6o1ZmXlegsDXjI6.',
     'KIMIRONKO',
     'verified',
     true

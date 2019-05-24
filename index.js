@@ -1,5 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import swaggerUi from 'swagger-ui-express';
+import swaggerdocs from './swagger.json';
 import loan from './routes/loan';
 import user from './routes/user';
 import repayment from './routes/repayment';
@@ -12,6 +14,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/v1', user);
 app.use('/api/v1/loans', loan);
 app.use('/api/v1/loans', repayment);
+
+// Swagger Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerdocs));
+
 app.get('/', (req, res) => {
   res.status(200).json({
     status: 200,
