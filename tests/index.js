@@ -27,7 +27,7 @@ describe('User', () => {
     chai.request(server)
       .post('/api/v1/auth/signup')
       .send({
-        email: 'kakabo@gmail.com',
+        email: ' ',
         firstName: 'kaka',
         lastName: 'bosco',
         password: '12345678',
@@ -73,7 +73,7 @@ describe('User', () => {
       chai.request(server)
         .post('/api/v1/auth/login')
         .send({
-          email: 'karemera@gmail.com',
+          email: 'ngireric123@gmail.com',
           password: '12345678',
         })
 
@@ -106,6 +106,54 @@ describe('User', () => {
 });
 
 describe('RUNNING OTHER TESTS', () => {
+  it('it should not register a new loan with negative Amount', (done) => {
+    chai.request(server)
+      .post('/api/v1/loans')
+      .set('Authorization', token)
+      .send({
+        email: 'ngireric123',
+        amount: -3000,
+        tenor: 12,
+      })
+
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+  it('it should not register a new repayment with negative paidAmount', (done) => {
+    chai.request(server)
+      .post('/api/v1/loans/2/repayment')
+      .set('Authorization', token)
+      .send({
+        email: 'ngireric123',
+        amount: -3000,
+        tenor: 12,
+      })
+
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+  it('it should not register a new loan with negative tenor', (done) => {
+    chai.request(server)
+      .post('/api/v1/loans')
+      .set('Authorization', token)
+      .send({
+        email: 'ngireric123',
+        amount: 3000,
+        tenor: -12,
+      })
+
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
   it('it should GET all loan', (done) => {
     chai.request(server)
       .get('/api/v1/loans')
@@ -116,12 +164,12 @@ describe('RUNNING OTHER TESTS', () => {
         done();
       });
   });
-  it('it should not GET a specific loan when you letter mixed with number', (done) => {
+  it('it should GET a specific loan', (done) => {
     chai.request(server)
-      .get('/api/v1/loans/1gggd')
+      .get('/api/v1/loans/1')
       .set('Authorization', token)
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(404);
         res.body.should.be.a('object');
         done();
       });
