@@ -13,8 +13,15 @@ class Loan {
         error: error.details[0].message,
       });
     }
+
     const emaili = await User.checkEmail(req.body.email);
     const findLoan = await loans.checkLoan(req.body.email);
+    if (req.users.newUser.email !== req.body.email){
+      return res.status(400).send({
+        status: 400,
+        error: 'the Email you are trying to use is not yours',
+      });
+    }
     if (!findLoan) {
      return res.status(409).send({
        status: 409,
@@ -37,6 +44,7 @@ class Loan {
   }
   // Get on Loan
   static async getOne(req, res) {
+
     if (isNaN(req.params.id)) {
      return res.status(400).send({
        status: 400,
@@ -56,15 +64,32 @@ class Loan {
    });
   }
 
-  // Get all Loan
+  // Get all Loan & Get current loan & Get all repaid loan
 
-  static async getAll(req, res) {
-   const results = await loans.getAllLoan();
+  static async geCurrent(req, res) {
+    const statusLoan = req.query.status;
+    const repaidLoan = req.query.repaid;
+    const results = await loans.getAllLoan();
+    const currentLoan = await loans.geCurrenttLoan(statusLoan, repaidLoan );
+   if (currentLoan.length !== 0) {
+        res.status(200).send({
+        status: 200,
+        data: currentLoan,
+      });
+    }else if(!statusLoan && !repaidLoan){
    res.status(200).send({
-    status: 200,
-    data: results,
-  });
+   status: 200,
+   data: results,
+ });
+}else{
+  res.status(404).send({
+   status: 404,
+   message: 'no loan found',
+ });
+ }
 }
+
+
 
   // Approve or reject loan Application
 

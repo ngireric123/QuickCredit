@@ -2,12 +2,14 @@ import Joi from 'joi';
 
 export const validateUser = (data) => {
   const schema = {
-    email: Joi.string().email().required().trim(),
-    firstName: Joi.string().min(5).required().trim(),
-    lastName: Joi.string().min(5).required().trim(),
+    email: Joi.string().email().required(),
+    firstName: Joi.string().min(1).required().regex(/^[a-zA-Z] |[a-zA-Z] ?[a-zA-Z]+$/),
+    lastName: Joi.string().min(2).required().regex(/^[a-zA-Z] |[a-zA-Z] ?[a-zA-Z]+$/),
     address: Joi.string().min(3).required().trim(),
-    password: Joi.string().min(8).required().trim(),
+    password: Joi.string().min(8).required().regex(/^[a-zA-Z0-9]{6,30}$/),
+    isAdmin: Joi.string(),
     status: Joi.string(),
+
   };
   const { error } = Joi.validate(data, schema);
   return error;
@@ -28,8 +30,8 @@ export const validateLoan = (data) => {
       .valid(['pending', 'approved', 'rejected'])
       .trim(),
     email: Joi.string().email().trim().required(),
-    tenor: Joi.number().max(12).required(),
-    amount: Joi.number().required(),
+    tenor: Joi.number().max(12).positive().required(),
+    amount: Joi.number().required().positive(),
   };
   const { error } = Joi.validate(data, schema);
   return error;
@@ -57,7 +59,7 @@ export const validateLoanStatus = (data) => {
 
 export const validateRepayment = (data) => {
   const schema = {
-    paidAmount: Joi.number().required(),
+    paidAmount: Joi.number().required().positive(),
   };
   const { error } = Joi.validate(data, schema);
   return error;

@@ -26,3 +26,41 @@
 //       });
 //   });
 // });
+// import 'babel-polyfill';
+// import chai from 'chai';
+// import chaiHttp from 'chai-http';
+// import server from '../index';
+// import pool from '../models/db';
+//
+// let token = '';
+//
+// describe('Loan', () => {
+//
+//   describe('GET all Loan', () => {
+//     it('First login the user to generate the token', (done) => {
+//       chai.request(server)
+//         .post('/api/v1/auth/login')
+//         .send({
+//           email: 'karemera@gmail.com',
+//           password: '1234578',
+//         })
+//         .end((err, res) => {
+//           res.should.have.status(200);
+//           res.body.should.be.a('object');
+//           token = res.body.data[0].token;
+//           done();
+//         });
+//     });
+//
+//     it('it should show all loan', (done) => {
+//       chai.request(server)
+//         .get('/api/v1/loans')
+//         .set('Authorization', token)
+//         .end((err, res) => {
+//           res.should.have.status(200);
+//           res.body.should.be.a('object');
+//           done();
+//         });
+//     });
+//   });
+// });

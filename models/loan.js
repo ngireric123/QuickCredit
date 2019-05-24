@@ -3,8 +3,8 @@ import moment from 'moment';
 class loans {
 
   // Create a loan
-  
-   async create(data) {
+
+   static async create(data) {
       this.interest = 0.05 * parseFloat(data.amount);
       this.paymentInstallment = ((parseFloat(data.amount) + this.interest ) / data.tenor);
      this.createdOn = moment().format('LLL');
@@ -39,7 +39,7 @@ class loans {
      return [this.res.rows[0]];
 
      }
-    async checkLoan(email, repaid) {
+    static async checkLoan(email, repaid) {
      const res = await pool.query('SELECT * FROM loans WHERE email = $1 AND repaid = false', [email.trim()]);
      if (res.rowCount < 1) {
      return true;
@@ -49,21 +49,26 @@ class loans {
 
  // get one loan method
 
-  async getOneLoan(id) {
+  static async getOneLoan(id) {
   this.res = await pool.query('SELECT * FROM loans WHERE id = $1', [id]);
   return this.res;
     }
 
     // get all loan method
 
-  async getAllLoan() {
+  static async getAllLoan() {
      this.res = await pool.query('SELECT * FROM loans');
+     return this.res.rows;
+  }
+
+  static async geCurrenttLoan(status, repaid) {
+     this.res = await pool.query('SELECT * FROM loans WHERE status = $1 AND repaid = $2', [status, repaid]);
      return this.res.rows;
   }
 
    // Patch Loan
 
-  async patchLoan(id, data, loans){
+   static async patchLoan(id, data, loans){
     const newStatus = data.status || loans[0].status;
     this.newId = id;
     this.newData = [
@@ -76,7 +81,7 @@ class loans {
 
   // check ID
 
-  async checkId(id) {
+  static async checkId(id) {
     this.loan = [];
    this.res = await pool.query('SELECT * FROM loans WHERE id = $1', [id]);
       if (this.res.rowCount === 1) {
@@ -85,4 +90,4 @@ class loans {
     return this.loan;
  }
 }
-export default new loans();
+export default loans;
