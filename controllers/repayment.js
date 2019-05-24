@@ -24,13 +24,14 @@ class repayments {
    const createdon = moment().format('LLL');
    const paidamount = req.body.paidAmount;
    if (findloan.length === 0){
-     return res.status(400).send({
-       status: 400,
+     return res.status(404).send({
+       status: 404,
        error: 'the loan you are trying to pay is not registered',
      });
    }
    const amount = findloan[0].amount;
-   if (findloan[0].balance - paidamount){
+   console.log(findloan[0].balance - paidamount);
+   if (findloan[0].balance - paidamount < 0){
      return res.status(400).send({
        status: 400,
        error: 'do not pay a lot of money',
@@ -58,7 +59,7 @@ class repayments {
     const repaymentCreation = await pool.query(`INSERT INTO repayments (createdon,  loans, amount,  paidamount, balance, monthlyinstallment)
    VALUES($1, $2, $3, $4, $5, $6)`, newRepayment);
     const newBalance = await repayment.updateBalance(loanId, balance,findloan);
-    
+
     return res.status(201).json({
       status:201,
       message:`Repayment Created Successfully!`,
